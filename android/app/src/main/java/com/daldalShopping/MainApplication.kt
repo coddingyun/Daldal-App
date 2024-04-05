@@ -1,4 +1,4 @@
-package com.daldalapp
+package com.daldalShopping
 
 import android.app.Application
 import com.facebook.react.PackageList

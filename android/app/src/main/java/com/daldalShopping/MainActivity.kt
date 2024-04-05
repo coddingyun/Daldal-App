@@ -1,4 +1,4 @@
-package com.daldalapp
+package com.daldalShopping
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

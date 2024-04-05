@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {Linking, Platform, StyleSheet, View} from 'react-native';
 import WebView from 'react-native-webview';
 import {BackHandler} from 'react-native';
 import {useEffect, useRef, useState} from 'react';
@@ -33,6 +33,33 @@ const Home = () => {
       <WebView
         source={{uri: 'https://daldal-web.vercel.app/'}}
         ref={webViewRef}
+        originWhitelist={[
+          'http://*',
+          'https://*',
+          'intent://*',
+          'zigzag',
+          'itms-apps',
+        ]}
+        onShouldStartLoadWithRequest={event => {
+          if (
+            event.url.startsWith('https://s.zigzag') ||
+            event.url.startsWith('https://zigzag') ||
+            event.url.startsWith('itms-apps') ||
+            event.url.startsWith('about:blank')
+          ) {
+            Linking.openURL(event.url);
+          } else if (
+            Platform.OS === 'android' &&
+            event.url.startsWith('intent')
+          ) {
+            Linking.openURL(event.url.substring(7));
+            return false;
+          }
+          if (Platform.OS === 'ios') {
+            return true;
+          }
+          return true;
+        }}
         onNavigationStateChange={state => {
           setNavState({canGoBack: state.canGoBack});
         }}
